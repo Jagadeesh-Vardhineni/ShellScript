@@ -25,4 +25,4 @@ VALIDATE(){
 
 dnf install nginx -y 
 
-validate $? "Installing Nginx" | $Logs_file
+validate $? "Installing Nginx" | tee -a $Logs_file
