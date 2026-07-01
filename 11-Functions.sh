@@ -15,7 +15,7 @@ validate(){
    fi
 }
 
-dnf intsall ngnix -y
+dnf install nginx -y
 validate $? "Installing Nginx"
 
 dnf install  mysql -y
