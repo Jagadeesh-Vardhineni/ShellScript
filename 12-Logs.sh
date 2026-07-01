@@ -1,28 +1,31 @@
 #!/bin/bash
+
 USERID=$(id -u)
-Logs_Folder="var/log/shell-script"
-Logs_file="var/log/shell-script/$0.log"
+
+LOGS_FOLDER="/var/log/shell-script"
+mkdir -p "$LOGS_FOLDER"
+
+LOGS_FILE="$LOGS_FOLDER/$(basename "$0").log"
 
 if [ $USERID -ne 0 ]; then
-   
-   echo "Please run the script with Sudo access" |  $Logs_file
-   exit 1
+    echo "Please run this script with sudo access" | tee -a "$LOGS_FILE"
+    exit 1
 fi
 
-mkdir -p $Logs_Folder
-
-VALIDATE(){
+VALIDATE() {
     if [ $1 -ne 0 ]; then
-      
-      echo "$2..... is failure"
-      exit 1
-    else 
-      echo "$2..... is Success"
+        echo "$2 ..... FAILURE" | tee -a "$LOGS_FILE"
+        exit 1
+    else
+        echo "$2 ..... SUCCESS" | tee -a "$LOGS_FILE"
     fi
-      
-
 }
 
-dnf install nginx -y 
+dnf install nginx -y
+VALIDATE $? "Installing Nginx"
 
-validate $? "Installing Nginx" | tee -a $Logs_file
+dnf install mysql -y
+VALIDATE $? "Installing MySQL"
+
+dnf install nodejs -y
+VALIDATE $? "Installing NodeJS"
