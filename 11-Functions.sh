@@ -1,7 +1,7 @@
 #!/bin/bash
 USERID=$(id -u)
 
-if[USERID -ne 0];then
+if[ $USERID -ne 0];then
   echo"Please run the file with Sudo access"
   exit 1
 fi
